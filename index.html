@@ -74,17 +74,23 @@
 
         <div id="quiz">
 
-            <h1>🏀 Cuestionario</h1>
+    <h1>🏀 Tu perfil de jugador</h1>
 
-            <p>
-                Aquí empezará tu análisis de jugador.
-            </p>
+    <p>¿Cuál es tu posición principal?</p>
 
-            <button onclick="goBack()">
-                Volver
-            </button>
+    <button onclick="answer('position', 'base')">Base</button>
+    <button onclick="answer('position', 'escolta')">Escolta</button>
+    <button onclick="answer('position', 'alero')">Alero</button>
+    <button onclick="answer('position', 'ala-pivot')">Ala-pívot</button>
+    <button onclick="answer('position', 'pivot')">Pívot</button>
 
-        </div>
+    <p id="answer"></p>
+
+    <button onclick="goBack()">
+        Volver
+    </button>
+
+</div>
 
     </div>
 
@@ -106,6 +112,13 @@
 
             document.getElementById("home").style.display = "block";
 
+        }
+
+        function answer(type, value) {
+
+    document.getElementById("answer").innerText =
+        "Has elegido: " + value;
+        
         }
 
     </script>
