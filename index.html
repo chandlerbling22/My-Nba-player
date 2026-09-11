@@ -7,34 +7,43 @@
     <title>NBA Player Match</title>
 
     <style>
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #111;
             color: white;
-            text-align: center;
         }
 
         .container {
             max-width: 700px;
             margin: auto;
-            padding: 60px 20px;
+            padding: 50px 20px;
+            text-align: center;
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 30px;
         }
 
         p {
-            font-size: 20px;
             color: #bbb;
+            font-size: 19px;
+            line-height: 1.5;
         }
 
         button {
             display: block;
-            margin: 15px auto;
-            padding: 15px 30px;
-            font-size: 18px;
+            width: 80%;
+            max-width: 400px;
+            margin: 14px auto;
+            padding: 15px;
+            font-size: 17px;
             font-weight: bold;
             border: none;
             border-radius: 10px;
@@ -42,77 +51,315 @@
         }
 
         button:hover {
-            transform: scale(1.04);
+            transform: scale(1.03);
         }
 
         #quiz {
             display: none;
         }
+
+        #result {
+            display: none;
+        }
+
+        .progress {
+            color: #888;
+            margin-bottom: 25px;
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <div class="container">
-
-        <div id="home">
-
-            <h1>🏀 NBA Player Match</h1>
-
-            <p>
-                Descubre a qué jugador NBA se parece realmente
-                tu estilo de juego.
-            </p>
-
-            <button onclick="startQuiz()">
-                Descubrir mi jugador
-            </button>
-
-        </div>
+<div class="container">
 
 
-        <div id="quiz">
+    <!-- PORTADA -->
 
-            <h1>🏀 Tu perfil de jugador</h1>
+    <div id="home">
 
-            <p>¿Cuál es tu posición principal?</p>
+        <h1>🏀 NBA Player Match</h1>
 
-            <button onclick="answer('Base')">Base</button>
+        <p>
+            Descubre a qué jugador NBA se parece realmente
+            tu estilo de juego.
+        </p>
 
-            <button onclick="answer('Escolta')">Escolta</button>
-
-            <button onclick="answer('Alero')">Alero</button>
-
-            <button onclick="answer('Ala-pívot')">Ala-pívot</button>
-
-            <button onclick="answer('Pívot')">Pívot</button>
-
-            <p id="answer"></p>
-
-        </div>
+        <button onclick="startQuiz()">
+            Descubrir mi jugador
+        </button>
 
     </div>
 
 
-    <script>
+    <!-- CUESTIONARIO -->
 
-        function startQuiz() {
+    <div id="quiz">
 
-            document.getElementById("home").style.display = "none";
+        <div class="progress" id="progress"></div>
 
-            document.getElementById("quiz").style.display = "block";
+        <h2 id="question"></h2>
 
-        }
+        <div id="answers"></div>
+
+    </div>
 
 
-        function answer(position) {
+    <!-- RESULTADO -->
 
-            document.getElementById("answer").innerText =
-                "Has elegido: " + position;
+    <div id="result">
 
-        }
+        <h1>🏆 Tu perfil</h1>
 
-    </script>
+        <p id="resultText"></p>
+
+        <button onclick="location.reload()">
+            Volver a empezar
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// --------------------------------
+// DATOS DEL CUESTIONARIO
+// --------------------------------
+
+const questions = [
+
+    {
+        question: "¿Cuál es tu posición principal?",
+        answers: [
+            "Base",
+            "Escolta",
+            "Alero",
+            "Ala-pívot",
+            "Pívot"
+        ]
+    },
+
+    {
+        question: "¿Cómo valorarías tu tiro de 3?",
+        answers: [
+            "Muy malo",
+            "Malo",
+            "Normal",
+            "Bueno",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo valorarías tu manejo de balón?",
+        answers: [
+            "Muy malo",
+            "Malo",
+            "Normal",
+            "Bueno",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo eres finalizando cerca del aro?",
+        answers: [
+            "Muy malo",
+            "Malo",
+            "Normal",
+            "Bueno",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo valorarías tu capacidad de pase?",
+        answers: [
+            "Muy mala",
+            "Mala",
+            "Normal",
+            "Buena",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo valorarías tu defensa?",
+        answers: [
+            "Muy mala",
+            "Mala",
+            "Normal",
+            "Buena",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo eres jugando sin balón?",
+        answers: [
+            "Muy malo",
+            "Malo",
+            "Normal",
+            "Bueno",
+            "Excelente"
+        ]
+    },
+
+    {
+        question: "¿Cómo valorarías tu velocidad y explosividad?",
+        answers: [
+            "Muy baja",
+            "Baja",
+            "Normal",
+            "Alta",
+            "Muy alta"
+        ]
+    },
+
+    {
+        question: "¿Cuánto dependes del balón para ser útil?",
+        answers: [
+            "Casi nada",
+            "Poco",
+            "Normal",
+            "Bastante",
+            "Muchísimo"
+        ]
+    },
+
+    {
+        question: "¿Cuál describe mejor tu estilo?",
+        answers: [
+            "Organizador",
+            "Anotador",
+            "Tirador",
+            "Atacante del aro",
+            "Jugador completo"
+        ]
+    }
+
+];
+
+
+// --------------------------------
+// VARIABLES
+// --------------------------------
+
+let currentQuestion = 0;
+
+let playerAnswers = [];
+
+
+// --------------------------------
+// EMPEZAR
+// --------------------------------
+
+function startQuiz() {
+
+    document.getElementById("home").style.display = "none";
+
+    document.getElementById("quiz").style.display = "block";
+
+    showQuestion();
+
+}
+
+
+// --------------------------------
+// MOSTRAR PREGUNTA
+// --------------------------------
+
+function showQuestion() {
+
+    const question = questions[currentQuestion];
+
+    document.getElementById("progress").innerText =
+        "Pregunta " + (currentQuestion + 1) +
+        " de " + questions.length;
+
+    document.getElementById("question").innerText =
+        question.question;
+
+    const answersDiv = document.getElementById("answers");
+
+    answersDiv.innerHTML = "";
+
+
+    question.answers.forEach(function(answer, index) {
+
+        const button = document.createElement("button");
+
+        button.innerText = answer;
+
+        button.onclick = function() {
+
+            selectAnswer(index, answer);
+
+        };
+
+        answersDiv.appendChild(button);
+
+    });
+
+}
+
+
+// --------------------------------
+// GUARDAR RESPUESTA
+// --------------------------------
+
+function selectAnswer(index, answer) {
+
+    playerAnswers.push({
+        question: currentQuestion,
+        answer: answer,
+        score: index + 1
+    });
+
+
+    currentQuestion++;
+
+
+    if (currentQuestion < questions.length) {
+
+        showQuestion();
+
+    } else {
+
+        showResult();
+
+    }
+
+}
+
+
+// --------------------------------
+// RESULTADO TEMPORAL
+// --------------------------------
+
+function showResult() {
+
+    document.getElementById("quiz").style.display = "none";
+
+    document.getElementById("result").style.display = "block";
+
+
+    document.getElementById("resultText").innerText =
+        "¡Cuestionario terminado! Hemos guardado " +
+        playerAnswers.length +
+        " respuestas. El siguiente paso será compararlas con jugadores NBA.";
+
+}
+
+</script>
 
 </body>
+
 </html>
