@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>NBA Player Match</title>
 
     <style>
@@ -11,21 +12,18 @@
             font-family: Arial, sans-serif;
             background: #111;
             color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             text-align: center;
         }
 
         .container {
             max-width: 700px;
-            padding: 40px;
+            margin: auto;
+            padding: 60px 20px;
         }
 
         h1 {
             font-size: 52px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         p {
@@ -35,19 +33,21 @@
         }
 
         button {
-            margin-top: 25px;
+            margin-top: 30px;
             padding: 16px 32px;
             font-size: 18px;
             font-weight: bold;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            background: white;
-            color: #111;
         }
 
         button:hover {
             transform: scale(1.04);
+        }
+
+        #quiz {
+            display: none;
         }
     </style>
 </head>
@@ -55,15 +55,60 @@
 <body>
 
     <div class="container">
-        <h1>🏀 NBA Player Match</h1>
 
-        <p>
-            Descubre a qué jugador NBA se parece realmente
-            tu estilo de juego.
-        </p>
+        <div id="home">
 
-        <button>Descubrir mi jugador</button>
+            <h1>🏀 NBA Player Match</h1>
+
+            <p>
+                Descubre a qué jugador NBA se parece realmente
+                tu estilo de juego.
+            </p>
+
+            <button onclick="startQuiz()">
+                Descubrir mi jugador
+            </button>
+
+        </div>
+
+
+        <div id="quiz">
+
+            <h1>🏀 Cuestionario</h1>
+
+            <p>
+                Aquí empezará tu análisis de jugador.
+            </p>
+
+            <button onclick="goBack()">
+                Volver
+            </button>
+
+        </div>
+
     </div>
+
+
+    <script>
+
+        function startQuiz() {
+
+            document.getElementById("home").style.display = "none";
+
+            document.getElementById("quiz").style.display = "block";
+
+        }
+
+
+        function goBack() {
+
+            document.getElementById("quiz").style.display = "none";
+
+            document.getElementById("home").style.display = "block";
+
+        }
+
+    </script>
 
 </body>
 </html>
