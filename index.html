@@ -22,19 +22,18 @@
         }
 
         h1 {
-            font-size: 52px;
-            margin-bottom: 15px;
+            font-size: 48px;
         }
 
         p {
             font-size: 20px;
             color: #bbb;
-            line-height: 1.5;
         }
 
         button {
-            margin-top: 30px;
-            padding: 16px 32px;
+            display: block;
+            margin: 15px auto;
+            padding: 15px 30px;
             font-size: 18px;
             font-weight: bold;
             border: none;
@@ -74,23 +73,23 @@
 
         <div id="quiz">
 
-    <h1>🏀 Tu perfil de jugador</h1>
+            <h1>🏀 Tu perfil de jugador</h1>
 
-    <p>¿Cuál es tu posición principal?</p>
+            <p>¿Cuál es tu posición principal?</p>
 
-    <button onclick="answer('position', 'base')">Base</button>
-    <button onclick="answer('position', 'escolta')">Escolta</button>
-    <button onclick="answer('position', 'alero')">Alero</button>
-    <button onclick="answer('position', 'ala-pivot')">Ala-pívot</button>
-    <button onclick="answer('position', 'pivot')">Pívot</button>
+            <button onclick="answer('Base')">Base</button>
 
-    <p id="answer"></p>
+            <button onclick="answer('Escolta')">Escolta</button>
 
-    <button onclick="goBack()">
-        Volver
-    </button>
+            <button onclick="answer('Alero')">Alero</button>
 
-</div>
+            <button onclick="answer('Ala-pívot')">Ala-pívot</button>
+
+            <button onclick="answer('Pívot')">Pívot</button>
+
+            <p id="answer"></p>
+
+        </div>
 
     </div>
 
@@ -106,19 +105,11 @@
         }
 
 
-        function goBack() {
+        function answer(position) {
 
-            document.getElementById("quiz").style.display = "none";
+            document.getElementById("answer").innerText =
+                "Has elegido: " + position;
 
-            document.getElementById("home").style.display = "block";
-
-        }
-
-        function answer(type, value) {
-
-    document.getElementById("answer").innerText =
-        "Has elegido: " + value;
-        
         }
 
     </script>
