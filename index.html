@@ -791,86 +791,49 @@ function selectAnswer(score) {
 
 function showResult() {
 
-    document.getElementById("quiz")
-        .style.display = "none";
-
-    document.getElementById("result")
-        .style.display = "block";
-
-
-    // ========================================
-    // CALCULAR SIMILITUD CON CADA JUGADOR
-    // ========================================
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").style.display = "block";
 
     let results = [];
-
 
     nbaPlayers.forEach(function(player) {
 
         let totalDifference = 0;
 
-
         questions.forEach(function(question) {
 
-            const userScore =
-                playerProfile[question.name];
+            const userScore = playerProfile[question.name];
+            const playerScore = player.ratings[question.name];
 
-            const playerScore =
-                player.ratings[question.name];
-
-            totalDifference +=
-                Math.abs(userScore - playerScore);
+            totalDifference += Math.abs(userScore - playerScore);
 
         });
 
+        const maxDifference = questions.length * 9;
 
-        const maxDifference =
-            questions.length * 9;
-
-
-        const similarity =
-            Math.round(
-                (1 - totalDifference / maxDifference) * 100
-            );
-
+        const similarity = Math.round(
+            (1 - totalDifference / maxDifference) * 100
+        );
 
         results.push({
-
             player: player,
-
             similarity: similarity
-
         });
 
     });
 
 
-    // ========================================
-    // ORDENAR DE MÁS PARECIDO A MENOS
-    // ========================================
-
     results.sort(function(a, b) {
-
         return b.similarity - a.similarity;
-
     });
 
 
-    // ========================================
-    // MOSTRAR TOP 3
-    // ========================================
-
-    const bestMatch =
-        results[0];
-
-    const secondMatch =
-        results[1];
-
-    const thirdMatch =
-        results[2];
+    const bestMatch = results[0];
+    const secondMatch = results[1];
+    const thirdMatch = results[2];
 
 
-    let resultHTML = `
+    document.getElementById("resultText").innerHTML = `
 
         <h2>🏆 Tu jugador más parecido</h2>
 
@@ -880,15 +843,13 @@ function showResult() {
             ${bestMatch.similarity}% de similitud
         </p>
 
-
         <hr style="
             border: none;
             border-top: 1px solid #333;
             margin: 35px 0;
         ">
 
-
-        <h2>🥈 Top 3</h2>
+        <h2>🥇 Top 3</h2>
 
         <p>
             🥇 ${bestMatch.player.name}
@@ -907,12 +868,7 @@ function showResult() {
 
     `;
 
-
-    document.getElementById("resultText")
-        .innerHTML = resultHTML;
-
 }
-
 </script>
 
 
