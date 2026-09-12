@@ -907,7 +907,74 @@ function showResult() {
                 </span>
 
             </div>
+  <div style="
+            margin-top: 40px;
+            padding: 25px;
+            background: #181818;
+            border-radius: 15px;
+            border: 1px solid #333;
+        ">
 
+            <h2>
+                🎯 ¿Quieres jugar como otro jugador?
+            </h2>
+
+            <p style="
+                color: #aaa;
+                font-size: 14px;
+            ">
+                Elige un jugador y descubre qué necesitas mejorar para acercarte a su perfil.
+            </p>
+
+            <select
+                id="targetPlayer"
+                style="
+                    width: 100%;
+                    padding: 14px;
+                    margin-top: 15px;
+                    background: #292929;
+                    color: white;
+                    border: 1px solid #555;
+                    border-radius: 10px;
+                    font-size: 16px;
+                "
+            >
+
+                <option value="">
+                    Selecciona un jugador
+                </option>
+
+                ${nbaPlayers.map(function(player) {
+
+                    return `
+                        <option value="${player.name}">
+                            ${player.name}
+                        </option>
+                    `;
+
+                }).join("")}
+
+            </select>
+
+            <button
+                onclick="analyzeTargetPlayer()"
+                style="
+                    width: 100%;
+                    margin-top: 15px;
+                    padding: 14px;
+                    background: white;
+                    color: black;
+                    border: none;
+                    border-radius: 10px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                "
+            >
+                Analizar mi perfil →
+            </button>
+
+        </div>
         `;
 
     });
@@ -1202,6 +1269,246 @@ function showResult() {
         </div>
 
     `;
+
+}
+function analyzeTargetPlayer() {
+
+    const selectedName =
+        document.getElementById("targetPlayer").value;
+
+    if (!selectedName) {
+
+        alert("Selecciona primero un jugador.");
+
+        return;
+    }
+
+
+    const targetPlayer =
+        nbaPlayers.find(function(player) {
+
+            return player.name === selectedName;
+
+        });
+
+
+    let differences = [];
+
+
+    questions.forEach(function(question) {
+
+        const userScore =
+            playerProfile[question.name];
+
+        const targetScore =
+            targetPlayer.profile[question.name];
+
+        differences.push({
+
+            question: question.question,
+
+            userScore: userScore,
+
+            targetScore: targetScore,
+
+            difference:
+                targetScore - userScore
+
+        });
+
+    });
+
+
+    differences.sort(function(a, b) {
+
+        return b.difference - a.difference;
+
+    });
+
+
+    const priorities =
+        differences
+            .filter(function(item) {
+
+                return item.difference > 0;
+
+            })
+            .slice(0, 5);
+
+
+    let prioritiesHTML = "";
+
+
+    priorities.forEach(function(item, index) {
+
+        prioritiesHTML += `
+
+            <div style="
+                margin: 12px 0;
+                padding: 15px;
+                background: #1b1b1b;
+                border-radius: 12px;
+                border: 1px solid #333;
+            ">
+
+                <div style="
+                    font-size: 13px;
+                    color: #888;
+                ">
+                    PRIORIDAD ${index + 1}
+                </div>
+
+                <strong>
+                    ${item.question}
+                </strong>
+
+                <div style="
+                    margin-top: 8px;
+                    color: #aaa;
+                ">
+
+                    Tú: ${item.userScore}/10
+
+                    ·
+
+                    ${targetPlayer.name}: ${item.targetScore}/10
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    if (priorities.length === 0) {
+
+        prioritiesHTML = `
+
+            <div style="
+                padding: 20px;
+                background: #1b1b1b;
+                border-radius: 12px;
+            ">
+
+                🔥 Tu perfil ya está muy cerca del de
+                <strong>${targetPlayer.name}</strong>.
+
+            </div>
+
+        `;
+
+    }
+
+
+   
+
+    let userDifference = 0;
+
+
+    questions.forEach(function(question) {
+
+        userDifference += Math.abs(
+
+            playerProfile[question.name] -
+            targetPlayer.profile[question.name]
+
+        );
+
+    });
+
+
+    const maxDifference =
+        questions.length * 9;
+
+
+    const targetSimilarity = Math.round(
+
+        (1 - userDifference / maxDifference) * 100
+
+    );
+
+
+    const targetSection =
+        document.createElement("div");
+
+
+    targetSection.style.marginTop = "30px";
+
+
+    targetSection.innerHTML = `
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #333;
+            margin: 40px 0;
+        ">
+
+        <div style="
+            text-align: center;
+        ">
+
+            <p style="
+                color: #888;
+                font-size: 13px;
+            ">
+                OBJETIVO
+            </p>
+
+            <h2 style="
+                font-size: 32px;
+                margin: 8px 0;
+            ">
+                ${targetPlayer.name}
+            </h2>
+
+            <p style="
+                font-size: 28px;
+                font-weight: bold;
+            ">
+                ${targetSimilarity}%
+            </p>
+
+            <p style="
+                color: #aaa;
+            ">
+                de similitud con tu perfil actual
+            </p>
+
+        </div>
+
+
+        <h2 style="
+            margin-top: 35px;
+        ">
+            📈 Tus 5 prioridades
+        </h2>
+
+        <p style="
+            color: #999;
+            font-size: 14px;
+        ">
+            Estas son las áreas donde actualmente tienes mayor distancia respecto a ${targetPlayer.name}.
+        </p>
+
+        ${prioritiesHTML}
+
+    `;
+
+
+    document
+        .getElementById("resultText")
+        .appendChild(targetSection);
+
+
+    targetSection.scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+    });
 
 }
 </script>
