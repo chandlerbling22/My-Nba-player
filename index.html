@@ -822,20 +822,19 @@ function showResult() {
 
     });
 
-
     results.sort(function(a, b) {
         return b.similarity - a.similarity;
     });
-
 
     const bestMatch = results[0];
     const secondMatch = results[1];
     const thirdMatch = results[2];
 
 
-    // ========================================
-    // ENCONTRAR PUNTOS FUERTES Y DEBILIDADES
-    // ========================================
+
+    /* =========================
+       MAYORES SIMILITUDES
+    ========================= */
 
     let comparisons = [];
 
@@ -863,27 +862,26 @@ function showResult() {
     });
 
 
-    comparisons.sort(function(a, b) {
-
-        return a.difference - b.difference;
-
-    });
-
-
     const strongestMatches =
-        comparisons.slice(0, 3);
+        [...comparisons]
+            .sort(function(a, b) {
+                return a.difference - b.difference;
+            })
+            .slice(0, 3);
+
 
     const biggestDifferences =
-        comparisons
+        [...comparisons]
             .sort(function(a, b) {
                 return b.difference - a.difference;
             })
             .slice(0, 3);
 
 
-    // ========================================
-    // CONSTRUIR PUNTOS FUERTES
-    // ========================================
+
+    /* =========================
+       HTML DE SIMILITUDES
+    ========================= */
 
     let strengthsHTML = "";
 
@@ -893,17 +891,20 @@ function showResult() {
 
             <div style="
                 margin: 12px 0;
-                padding: 12px;
+                padding: 14px;
                 background: #1b1b1b;
-                border-radius: 10px;
+                border-radius: 12px;
+                border: 1px solid #333;
             ">
 
                 <strong>${item.question}</strong>
 
                 <br>
 
-                Tú: ${item.userScore}/10
-                · ${bestMatch.player.name}: ${item.playerScore}/10
+                <span style="color:#aaa;">
+                    Tú: ${item.userScore}/10
+                    · ${bestMatch.player.name}: ${item.playerScore}/10
+                </span>
 
             </div>
 
@@ -912,9 +913,10 @@ function showResult() {
     });
 
 
-    // ========================================
-    // CONSTRUIR ASPECTOS A MEJORAR
-    // ========================================
+
+    /* =========================
+       HTML DE MEJORAS
+    ========================= */
 
     let improvementHTML = "";
 
@@ -924,17 +926,20 @@ function showResult() {
 
             <div style="
                 margin: 12px 0;
-                padding: 12px;
+                padding: 14px;
                 background: #1b1b1b;
-                border-radius: 10px;
+                border-radius: 12px;
+                border: 1px solid #333;
             ">
 
                 <strong>${item.question}</strong>
 
                 <br>
 
-                Tú: ${item.userScore}/10
-                · ${bestMatch.player.name}: ${item.playerScore}/10
+                <span style="color:#aaa;">
+                    Tú: ${item.userScore}/10
+                    · ${bestMatch.player.name}: ${item.playerScore}/10
+                </span>
 
             </div>
 
@@ -943,32 +948,177 @@ function showResult() {
     });
 
 
-    // ========================================
-    // MOSTRAR RESULTADO
-    // ========================================
+
+    /* =========================
+       BARRAS DE COMPARACIÓN
+    ========================= */
+
+    let barsHTML = "";
+
+    questions.forEach(function(question) {
+
+        const userScore =
+            playerProfile[question.name];
+
+        const playerScore =
+            bestMatch.player.profile[question.name];
+
+        barsHTML += `
+
+            <div style="
+                margin: 22px 0;
+            ">
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 7px;
+                    font-size: 14px;
+                ">
+
+                    <strong>
+                        ${question.question}
+                    </strong>
+
+                    <span>
+                        ${userScore} / ${playerScore}
+                    </span>
+
+                </div>
+
+
+                <div style="
+                    height: 10px;
+                    background: #292929;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    margin-bottom: 5px;
+                ">
+
+                    <div style="
+                        width: ${userScore * 10}%;
+                        height: 100%;
+                        background: #ffffff;
+                        border-radius: 20px;
+                    "></div>
+
+                </div>
+
+
+                <div style="
+                    height: 6px;
+                    background: #292929;
+                    border-radius: 20px;
+                    overflow: hidden;
+                ">
+
+                    <div style="
+                        width: ${playerScore * 10}%;
+                        height: 100%;
+                        background: #777;
+                        border-radius: 20px;
+                    "></div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+
+    /* =========================
+       MEDIA DEL PERFIL
+    ========================= */
+
+    let totalUserScore = 0;
+
+    questions.forEach(function(question) {
+
+        totalUserScore +=
+            playerProfile[question.name];
+
+    });
+
+    const userAverage =
+        (totalUserScore / questions.length).toFixed(1);
+
+
+
+    /* =========================
+       RESULTADO FINAL
+    ========================= */
 
     document.getElementById("resultText").innerHTML = `
 
-        <h2>🏆 Tu NBA Match</h2>
-
-        <h1 style="
-            font-size: 42px;
-            margin: 15px 0;
+        <div style="
+            text-align: center;
         ">
-            ${bestMatch.player.name}
-        </h1>
 
-        <p style="
-            font-size: 32px;
-            color: white;
-            font-weight: bold;
+            <p style="
+                color: #aaa;
+                font-size: 15px;
+                margin-bottom: 5px;
+            ">
+                TU NBA MATCH
+            </p>
+
+
+            <h1 style="
+                font-size: 42px;
+                margin: 10px 0;
+            ">
+                ${bestMatch.player.name}
+            </h1>
+
+
+            <p style="
+                font-size: 46px;
+                font-weight: bold;
+                margin: 10px 0;
+            ">
+                ${bestMatch.similarity}%
+            </p>
+
+
+            <p style="
+                color: #aaa;
+                margin-bottom: 35px;
+            ">
+                de similitud con tu estilo de juego
+            </p>
+
+        </div>
+
+
+
+        <div style="
+            background: #181818;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
         ">
-            ${bestMatch.similarity}%
-        </p>
 
-        <p>
-            de similitud con tu estilo de juego
-        </p>
+            <div style="
+                color: #aaa;
+                font-size: 14px;
+            ">
+                VALORACIÓN MEDIA DE TU PERFIL
+            </div>
+
+            <div style="
+                font-size: 35px;
+                font-weight: bold;
+                margin-top: 8px;
+            ">
+                ${userAverage}/10
+            </div>
+
+        </div>
+
 
 
         <hr style="
@@ -976,6 +1126,29 @@ function showResult() {
             border-top: 1px solid #333;
             margin: 35px 0;
         ">
+
+
+
+        <h2>📊 Tu perfil vs ${bestMatch.player.name}</h2>
+
+        <p style="
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 25px;
+        ">
+            Barra blanca = tú · Barra gris = ${bestMatch.player.name}
+        </p>
+
+        ${barsHTML}
+
+
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #333;
+            margin: 40px 0;
+        ">
+
 
 
         <h2>🔥 Tus mayores similitudes</h2>
@@ -983,36 +1156,50 @@ function showResult() {
         ${strengthsHTML}
 
 
-        <h2 style="margin-top: 40px;">
+
+        <h2 style="
+            margin-top: 40px;
+        ">
             📈 Lo que más deberías mejorar
         </h2>
 
         ${improvementHTML}
 
 
+
         <hr style="
             border: none;
             border-top: 1px solid #333;
-            margin: 35px 0;
+            margin: 40px 0;
         ">
 
 
-        <h2>🥇 Top 3</h2>
 
-        <p>
-            🥇 ${bestMatch.player.name}
-            — ${bestMatch.similarity}%
-        </p>
+        <h2>🥇 Tu Top 3</h2>
 
-        <p>
-            🥈 ${secondMatch.player.name}
-            — ${secondMatch.similarity}%
-        </p>
+        <div style="
+            margin-top: 20px;
+            background: #181818;
+            padding: 20px;
+            border-radius: 15px;
+        ">
 
-        <p>
-            🥉 ${thirdMatch.player.name}
-            — ${thirdMatch.similarity}%
-        </p>
+            <p style="font-size: 18px;">
+                🥇 <strong>${bestMatch.player.name}</strong>
+                — ${bestMatch.similarity}%
+            </p>
+
+            <p style="font-size: 17px;">
+                🥈 ${secondMatch.player.name}
+                — ${secondMatch.similarity}%
+            </p>
+
+            <p style="font-size: 17px;">
+                🥉 ${thirdMatch.player.name}
+                — ${thirdMatch.similarity}%
+            </p>
+
+        </div>
 
     `;
 
