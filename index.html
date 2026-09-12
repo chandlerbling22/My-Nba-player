@@ -438,26 +438,33 @@ function showResult() {
     });
 
 
-    let bestPlayer = rankings[0];
+    let topPlayers = rankings.slice(0, 3);
 
+
+let resultHTML = "<strong>🏆 Tus 3 jugadores más parecidos</strong><br><br>";
+
+
+topPlayers.forEach(function(player, index) {
 
     let similarity =
         Math.round(
-            100 - (bestPlayer.difference / 40 * 100)
+            100 - (player.difference / 40 * 100)
         );
 
+    resultHTML +=
+        "<strong>" +
+        (index + 1) +
+        ". " +
+        player.name +
+        "</strong>" +
+        " — " +
+        similarity +
+        "%<br><br>";
 
-    document.getElementById("resultText").innerHTML =
+});
 
-        "<strong>Tu jugador más parecido:</strong><br><br>" +
 
-        "🏆 " + bestPlayer.name +
-
-        "<br><br>" +
-
-        "Similitud aproximada: " +
-
-        similarity + "%";
+document.getElementById("resultText").innerHTML = resultHTML;
 
 }
 
