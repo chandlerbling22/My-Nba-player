@@ -803,7 +803,7 @@ function showResult() {
         questions.forEach(function(question) {
 
             const userScore = playerProfile[question.name];
-            const playerScore = player.ratings[question.name];
+            const playerScore = player.profile[question.name];
 
             totalDifference += Math.abs(userScore - playerScore);
 
