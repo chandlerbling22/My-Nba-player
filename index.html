@@ -339,7 +339,59 @@ function selectAnswer(index, answer) {
 
 }
 
+const players = [
 
+    {
+        name: "Stephen Curry",
+        scores: [1, 5, 5, 4, 4, 3, 5, 5, 5, 3]
+    },
+
+    {
+        name: "Shai Gilgeous-Alexander",
+        scores: [1, 5, 5, 5, 4, 4, 5, 5, 5, 2]
+    },
+
+    {
+        name: "Luka Dončić",
+        scores: [1, 5, 5, 4, 5, 3, 4, 3, 5, 1]
+    },
+
+    {
+        name: "Anthony Edwards",
+        scores: [2, 4, 5, 5, 3, 4, 3, 5, 4, 2]
+    },
+
+    {
+        name: "Devin Booker",
+        scores: [2, 5, 4, 4, 4, 3, 5, 4, 4, 2]
+    },
+
+    {
+        name: "Jalen Brunson",
+        scores: [1, 5, 5, 5, 4, 3, 4, 4, 5, 2]
+    },
+
+    {
+        name: "LeBron James",
+        scores: [3, 4, 4, 5, 5, 5, 4, 5, 4, 5]
+    },
+
+    {
+        name: "Jayson Tatum",
+        scores: [3, 4, 4, 5, 4, 5, 5, 4, 4, 5]
+    },
+
+    {
+        name: "Nikola Jokić",
+        scores: [5, 4, 3, 5, 5, 4, 4, 2, 3, 5]
+    },
+
+    {
+        name: "Giannis Antetokounmpo",
+        scores: [5, 2, 3, 5, 5, 5, 3, 5, 2, 5]
+    }
+
+];
 // --------------------------------
 // RESULTADO TEMPORAL
 // --------------------------------
@@ -351,10 +403,61 @@ function showResult() {
     document.getElementById("result").style.display = "block";
 
 
-    document.getElementById("resultText").innerText =
-        "¡Cuestionario terminado! Hemos guardado " +
-        playerAnswers.length +
-        " respuestas. El siguiente paso será compararlas con jugadores NBA.";
+    let rankings = [];
+
+
+    players.forEach(function(player) {
+
+        let difference = 0;
+
+
+        for (let i = 0; i < player.scores.length; i++) {
+
+            difference += Math.abs(
+                playerAnswers[i].score - player.scores[i]
+            );
+
+        }
+
+
+        rankings.push({
+
+            name: player.name,
+
+            difference: difference
+
+        });
+
+    });
+
+
+    rankings.sort(function(a, b) {
+
+        return a.difference - b.difference;
+
+    });
+
+
+    let bestPlayer = rankings[0];
+
+
+    let similarity =
+        Math.round(
+            100 - (bestPlayer.difference / 40 * 100)
+        );
+
+
+    document.getElementById("resultText").innerHTML =
+
+        "<strong>Tu jugador más parecido:</strong><br><br>" +
+
+        "🏆 " + bestPlayer.name +
+
+        "<br><br>" +
+
+        "Similitud aproximada: " +
+
+        similarity + "%";
 
 }
 
