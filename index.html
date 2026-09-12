@@ -1223,23 +1223,16 @@ function analyzeTargetPlayer() {
         document.getElementById("targetPlayer").value;
 
     if (!selectedName) {
-
         alert("Selecciona primero un jugador.");
-
         return;
     }
 
-
     const targetPlayer =
         nbaPlayers.find(function(player) {
-
             return player.name === selectedName;
-
         });
 
-
     let differences = [];
-
 
     questions.forEach(function(question) {
 
@@ -1250,40 +1243,26 @@ function analyzeTargetPlayer() {
             targetPlayer.profile[question.name];
 
         differences.push({
-
             question: question.question,
-
             userScore: userScore,
-
             targetScore: targetScore,
-
-            difference:
-                targetScore - userScore
-
+            difference: targetScore - userScore
         });
 
     });
 
-
     differences.sort(function(a, b) {
-
         return b.difference - a.difference;
-
     });
-
 
     const priorities =
         differences
             .filter(function(item) {
-
                 return item.difference > 0;
-
             })
             .slice(0, 5);
 
-
     let prioritiesHTML = "";
-
 
     priorities.forEach(function(item, index) {
 
@@ -1300,6 +1279,7 @@ function analyzeTargetPlayer() {
                 <div style="
                     font-size: 13px;
                     color: #888;
+                    margin-bottom: 5px;
                 ">
                     PRIORIDAD ${index + 1}
                 </div>
@@ -1312,13 +1292,9 @@ function analyzeTargetPlayer() {
                     margin-top: 8px;
                     color: #aaa;
                 ">
-
                     Tú: ${item.userScore}/10
-
                     ·
-
                     ${targetPlayer.name}: ${item.targetScore}/10
-
                 </div>
 
             </div>
@@ -1326,7 +1302,6 @@ function analyzeTargetPlayer() {
         `;
 
     });
-
 
     if (priorities.length === 0) {
 
@@ -1347,43 +1322,28 @@ function analyzeTargetPlayer() {
 
     }
 
-
-   
-
-    let userDifference = 0;
-
+    let totalDifference = 0;
 
     questions.forEach(function(question) {
 
-        userDifference += Math.abs(
-
+        totalDifference += Math.abs(
             playerProfile[question.name] -
             targetPlayer.profile[question.name]
-
         );
 
     });
 
-
     const maxDifference =
         questions.length * 9;
 
-
     const targetSimilarity = Math.round(
-
-        (1 - userDifference / maxDifference) * 100
-
+        (1 - totalDifference / maxDifference) * 100
     );
 
+    const targetAnalysis =
+        document.getElementById("targetAnalysis");
 
-    const targetSection =
-        document.createElement("div");
-
-
-    targetSection.style.marginTop = "30px";
-
-
-    targetSection.innerHTML = `
+    targetAnalysis.innerHTML = `
 
         <hr style="
             border: none;
@@ -1391,9 +1351,7 @@ function analyzeTargetPlayer() {
             margin: 40px 0;
         ">
 
-        <div style="
-            text-align: center;
-        ">
+        <div style="text-align: center;">
 
             <p style="
                 color: #888;
@@ -1424,7 +1382,6 @@ function analyzeTargetPlayer() {
 
         </div>
 
-
         <h2 style="
             margin-top: 35px;
         ">
@@ -1435,25 +1392,16 @@ function analyzeTargetPlayer() {
             color: #999;
             font-size: 14px;
         ">
-            Estas son las áreas donde actualmente tienes mayor distancia respecto a ${targetPlayer.name}.
+            Estas son las áreas donde tienes mayor distancia respecto a ${targetPlayer.name}.
         </p>
 
         ${prioritiesHTML}
 
     `;
 
-
-    document
-        .getElementById("resultText")
-        .appendChild(targetSection);
-
-
-    targetSection.scrollIntoView({
-
+    targetAnalysis.scrollIntoView({
         behavior: "smooth",
-
         block: "start"
-
     });
 
 }
