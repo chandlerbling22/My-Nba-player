@@ -791,39 +791,125 @@ function selectAnswer(score) {
 
 function showResult() {
 
-
     document.getElementById("quiz")
         .style.display = "none";
-
 
     document.getElementById("result")
         .style.display = "block";
 
 
-    let profileHTML =
+    // ========================================
+    // CALCULAR SIMILITUD CON CADA JUGADOR
+    // ========================================
 
-        "<strong>Tu perfil de jugador</strong><br><br>";
+    let results = [];
 
 
-    questions.forEach(function(question) {
+    nbaPlayers.forEach(function(player) {
+
+        let totalDifference = 0;
 
 
-        profileHTML +=
+        questions.forEach(function(question) {
 
-            question.question +
+            const userScore =
+                playerProfile[question.name];
 
-            ": " +
+            const playerScore =
+                player.ratings[question.name];
 
-            playerProfile[question.name] +
+            totalDifference +=
+                Math.abs(userScore - playerScore);
 
-            "/10<br>";
+        });
+
+
+        const maxDifference =
+            questions.length * 9;
+
+
+        const similarity =
+            Math.round(
+                (1 - totalDifference / maxDifference) * 100
+            );
+
+
+        results.push({
+
+            player: player,
+
+            similarity: similarity
+
+        });
 
     });
 
 
+    // ========================================
+    // ORDENAR DE MÁS PARECIDO A MENOS
+    // ========================================
+
+    results.sort(function(a, b) {
+
+        return b.similarity - a.similarity;
+
+    });
+
+
+    // ========================================
+    // MOSTRAR TOP 3
+    // ========================================
+
+    const bestMatch =
+        results[0];
+
+    const secondMatch =
+        results[1];
+
+    const thirdMatch =
+        results[2];
+
+
+    let resultHTML = `
+
+        <h2>🏆 Tu jugador más parecido</h2>
+
+        <h1>${bestMatch.player.name}</h1>
+
+        <p style="font-size: 28px; color: white;">
+            ${bestMatch.similarity}% de similitud
+        </p>
+
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #333;
+            margin: 35px 0;
+        ">
+
+
+        <h2>🥈 Top 3</h2>
+
+        <p>
+            🥇 ${bestMatch.player.name}
+            — ${bestMatch.similarity}%
+        </p>
+
+        <p>
+            🥈 ${secondMatch.player.name}
+            — ${secondMatch.similarity}%
+        </p>
+
+        <p>
+            🥉 ${thirdMatch.player.name}
+            — ${thirdMatch.similarity}%
+        </p>
+
+    `;
+
+
     document.getElementById("resultText")
-        .innerHTML =
-        profileHTML;
+        .innerHTML = resultHTML;
 
 }
 
