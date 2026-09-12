@@ -440,7 +440,223 @@ let currentQuestion = 0;
 
 
 let playerProfile = {};
+// ========================================
+// PERFILES NBA
+// ========================================
 
+const nbaPlayers = [
+
+    {
+        name: "Stephen Curry",
+        profile: {
+            triple: 10,
+            midrange: 9,
+            finishing: 8,
+            handles: 10,
+            creation: 10,
+            passing: 9,
+            pickroll: 10,
+            offball: 10,
+            perimeterDefense: 6,
+            interiorDefense: 3,
+            rebounding: 4,
+            explosiveness: 8,
+            transition: 9,
+            physical: 5,
+            versatility: 9
+        }
+    },
+
+    {
+        name: "Shai Gilgeous-Alexander",
+        profile: {
+            triple: 8,
+            midrange: 10,
+            finishing: 10,
+            handles: 10,
+            creation: 10,
+            passing: 9,
+            pickroll: 9,
+            offball: 8,
+            perimeterDefense: 8,
+            interiorDefense: 5,
+            rebounding: 5,
+            explosiveness: 9,
+            transition: 8,
+            physical: 7,
+            versatility: 9
+        }
+    },
+
+    {
+        name: "Luka Doncic",
+        profile: {
+            triple: 9,
+            midrange: 9,
+            finishing: 9,
+            handles: 10,
+            creation: 10,
+            passing: 10,
+            pickroll: 10,
+            offball: 6,
+            perimeterDefense: 5,
+            interiorDefense: 4,
+            rebounding: 8,
+            explosiveness: 6,
+            transition: 8,
+            physical: 8,
+            versatility: 10
+        }
+    },
+
+    {
+        name: "Anthony Edwards",
+        profile: {
+            triple: 8,
+            midrange: 8,
+            finishing: 10,
+            handles: 9,
+            creation: 9,
+            passing: 7,
+            pickroll: 8,
+            offball: 8,
+            perimeterDefense: 9,
+            interiorDefense: 5,
+            rebounding: 6,
+            explosiveness: 10,
+            transition: 10,
+            physical: 9,
+            versatility: 9
+        }
+    },
+
+    {
+        name: "Devin Booker",
+        profile: {
+            triple: 9,
+            midrange: 10,
+            finishing: 9,
+            handles: 9,
+            creation: 9,
+            passing: 8,
+            pickroll: 9,
+            offball: 9,
+            perimeterDefense: 6,
+            interiorDefense: 4,
+            rebounding: 5,
+            explosiveness: 7,
+            transition: 7,
+            physical: 7,
+            versatility: 9
+        }
+    },
+
+    {
+        name: "Jalen Brunson",
+        profile: {
+            triple: 9,
+            midrange: 10,
+            finishing: 9,
+            handles: 10,
+            creation: 10,
+            passing: 8,
+            pickroll: 10,
+            offball: 8,
+            perimeterDefense: 6,
+            interiorDefense: 4,
+            rebounding: 4,
+            explosiveness: 7,
+            transition: 7,
+            physical: 8,
+            versatility: 8
+        }
+    },
+
+    {
+        name: "LeBron James",
+        profile: {
+            triple: 7,
+            midrange: 8,
+            finishing: 10,
+            handles: 9,
+            creation: 10,
+            passing: 10,
+            pickroll: 10,
+            offball: 7,
+            perimeterDefense: 8,
+            interiorDefense: 8,
+            rebounding: 9,
+            explosiveness: 9,
+            transition: 10,
+            physical: 10,
+            versatility: 10
+        }
+    },
+
+    {
+        name: "Jayson Tatum",
+        profile: {
+            triple: 9,
+            midrange: 9,
+            finishing: 9,
+            handles: 9,
+            creation: 9,
+            passing: 8,
+            pickroll: 8,
+            offball: 9,
+            perimeterDefense: 9,
+            interiorDefense: 7,
+            rebounding: 8,
+            explosiveness: 8,
+            transition: 8,
+            physical: 9,
+            versatility: 10
+        }
+    },
+
+    {
+        name: "Nikola Jokic",
+        profile: {
+            triple: 8,
+            midrange: 9,
+            finishing: 10,
+            handles: 7,
+            creation: 10,
+            passing: 10,
+            pickroll: 10,
+            offball: 8,
+            perimeterDefense: 4,
+            interiorDefense: 7,
+            rebounding: 10,
+            explosiveness: 4,
+            transition: 6,
+            physical: 9,
+            versatility: 10
+        }
+    },
+
+    {
+        name: "Giannis Antetokounmpo",
+        profile: {
+            triple: 5,
+            midrange: 6,
+            finishing: 10,
+            handles: 8,
+            creation: 9,
+            passing: 9,
+            pickroll: 10,
+            offball: 8,
+            perimeterDefense: 9,
+            interiorDefense: 10,
+            rebounding: 10,
+            explosiveness: 10,
+            transition: 10,
+            physical: 10,
+            versatility: 10
+        }
+    }
+
+];
 
 
 // ========================================
