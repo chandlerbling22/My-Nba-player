@@ -833,21 +833,169 @@ function showResult() {
     const thirdMatch = results[2];
 
 
+    // ========================================
+    // ENCONTRAR PUNTOS FUERTES Y DEBILIDADES
+    // ========================================
+
+    let comparisons = [];
+
+    questions.forEach(function(question) {
+
+        const userScore =
+            playerProfile[question.name];
+
+        const playerScore =
+            bestMatch.player.profile[question.name];
+
+        comparisons.push({
+
+            question: question.question,
+
+            userScore: userScore,
+
+            playerScore: playerScore,
+
+            difference:
+                Math.abs(userScore - playerScore)
+
+        });
+
+    });
+
+
+    comparisons.sort(function(a, b) {
+
+        return a.difference - b.difference;
+
+    });
+
+
+    const strongestMatches =
+        comparisons.slice(0, 3);
+
+    const biggestDifferences =
+        comparisons
+            .sort(function(a, b) {
+                return b.difference - a.difference;
+            })
+            .slice(0, 3);
+
+
+    // ========================================
+    // CONSTRUIR PUNTOS FUERTES
+    // ========================================
+
+    let strengthsHTML = "";
+
+    strongestMatches.forEach(function(item) {
+
+        strengthsHTML += `
+
+            <div style="
+                margin: 12px 0;
+                padding: 12px;
+                background: #1b1b1b;
+                border-radius: 10px;
+            ">
+
+                <strong>${item.question}</strong>
+
+                <br>
+
+                Tú: ${item.userScore}/10
+                · ${bestMatch.player.name}: ${item.playerScore}/10
+
+            </div>
+
+        `;
+
+    });
+
+
+    // ========================================
+    // CONSTRUIR ASPECTOS A MEJORAR
+    // ========================================
+
+    let improvementHTML = "";
+
+    biggestDifferences.forEach(function(item) {
+
+        improvementHTML += `
+
+            <div style="
+                margin: 12px 0;
+                padding: 12px;
+                background: #1b1b1b;
+                border-radius: 10px;
+            ">
+
+                <strong>${item.question}</strong>
+
+                <br>
+
+                Tú: ${item.userScore}/10
+                · ${bestMatch.player.name}: ${item.playerScore}/10
+
+            </div>
+
+        `;
+
+    });
+
+
+    // ========================================
+    // MOSTRAR RESULTADO
+    // ========================================
+
     document.getElementById("resultText").innerHTML = `
 
-        <h2>🏆 Tu jugador más parecido</h2>
+        <h2>🏆 Tu NBA Match</h2>
 
-        <h1>${bestMatch.player.name}</h1>
+        <h1 style="
+            font-size: 42px;
+            margin: 15px 0;
+        ">
+            ${bestMatch.player.name}
+        </h1>
 
-        <p style="font-size: 28px; color: white;">
-            ${bestMatch.similarity}% de similitud
+        <p style="
+            font-size: 32px;
+            color: white;
+            font-weight: bold;
+        ">
+            ${bestMatch.similarity}%
         </p>
+
+        <p>
+            de similitud con tu estilo de juego
+        </p>
+
 
         <hr style="
             border: none;
             border-top: 1px solid #333;
             margin: 35px 0;
         ">
+
+
+        <h2>🔥 Tus mayores similitudes</h2>
+
+        ${strengthsHTML}
+
+
+        <h2 style="margin-top: 40px;">
+            📈 Lo que más deberías mejorar
+        </h2>
+
+        ${improvementHTML}
+
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #333;
+            margin: 35px 0;
+        ">
+
 
         <h2>🥇 Top 3</h2>
 
