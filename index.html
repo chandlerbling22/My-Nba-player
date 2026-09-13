@@ -449,6 +449,7 @@ const nbaPlayers = [
     {
         name: "Stephen Curry",
         position: "PG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 10,
             midrange: 9,
@@ -471,6 +472,7 @@ const nbaPlayers = [
     {
         name: "Shai Gilgeous-Alexander",
         position: "PG/SG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 8,
             midrange: 10,
@@ -493,6 +495,7 @@ const nbaPlayers = [
     {
         name: "Luka Doncic",
         position: "PG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 9,
             midrange: 9,
@@ -515,6 +518,7 @@ const nbaPlayers = [
     {
         name: "Anthony Edwards",
         position: "SG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 8,
             midrange: 8,
@@ -537,6 +541,7 @@ const nbaPlayers = [
     {
         name: "Devin Booker",
         position: "SG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 9,
             midrange: 10,
@@ -559,6 +564,7 @@ const nbaPlayers = [
     {
         name: "Jalen Brunson",
         position: "PG",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 9,
             midrange: 10,
@@ -581,6 +587,7 @@ const nbaPlayers = [
     {
         name: "LeBron James",
         position: "SF/PF",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 7,
             midrange: 8,
@@ -603,6 +610,7 @@ const nbaPlayers = [
     {
         name: "Jayson Tatum",
         position: "SF/PF",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 9,
             midrange: 9,
@@ -625,6 +633,7 @@ const nbaPlayers = [
     {
         name: "Nikola Jokic",
         position: "C",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 8,
             midrange: 9,
@@ -647,6 +656,7 @@ const nbaPlayers = [
     {
         name: "Giannis Antetokounmpo",
         position: "PF/C",
+        image: "AQUI_PONDREMOS_LA_IMAGEN",
         profile: {
             triple: 5,
             midrange: 6,
@@ -992,22 +1002,30 @@ function showResult() {
             </p>
 
 
-            <!-- IMAGEN PROVISIONAL -->
+           <!-- PLAYER IMAGE -->
 
-            <div style="
-                width: 130px;
-                height: 130px;
-                margin: 0 auto 20px;
-                border-radius: 50%;
-                background: linear-gradient(145deg, #292929, #111);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 60px;
-                box-shadow: 0 12px 35px rgba(0,0,0,0.5);
-            ">
-                🏀
-            </div>
+<div style="
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #202020;
+    border: 3px solid #333;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+">
+
+    <img
+        src="${bestMatch.player.image}"
+        alt="${bestMatch.player.name}"
+        style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        "
+    >
+
+</div>
 
 
             <h2 style="
