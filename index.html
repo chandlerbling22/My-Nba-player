@@ -832,14 +832,20 @@ function showResult() {
 
     });
 
+
     results.sort(function(a, b) {
         return b.similarity - a.similarity;
     });
+
 
     const bestMatch = results[0];
     const secondMatch = results[1];
     const thirdMatch = results[2];
 
+
+    /* =========================
+       COMPARACIONES
+    ========================= */
 
     let comparisons = [];
 
@@ -874,6 +880,10 @@ function showResult() {
             .slice(0, 3);
 
 
+    /* =========================
+       SIMILITUDES
+    ========================= */
+
     let strengthsHTML = "";
 
     strongestMatches.forEach(function(item) {
@@ -904,6 +914,10 @@ function showResult() {
     });
 
 
+    /* =========================
+       MEJORAS
+    ========================= */
+
     let improvementHTML = "";
 
     biggestDifferences.forEach(function(item) {
@@ -933,6 +947,10 @@ function showResult() {
 
     });
 
+
+    /* =========================
+       BARRAS
+    ========================= */
 
     let barsHTML = "";
 
@@ -1004,6 +1022,10 @@ function showResult() {
     });
 
 
+    /* =========================
+       MEDIA
+    ========================= */
+
     let totalUserScore = 0;
 
     questions.forEach(function(question) {
@@ -1016,42 +1038,103 @@ function showResult() {
         (totalUserScore / questions.length).toFixed(1);
 
 
+    /* =========================
+       RESULTADO
+    ========================= */
+
     document.getElementById("resultText").innerHTML = `
 
-        <div style="text-align: center;">
 
-            <p style="
-                color: #aaa;
-                font-size: 15px;
-                margin-bottom: 5px;
+        <!-- TARJETA PRINCIPAL -->
+
+        <div style="
+            background: linear-gradient(145deg, #1d1d1d, #0d0d0d);
+            border: 1px solid #333;
+            border-radius: 22px;
+            padding: 35px 25px;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        ">
+
+            <div style="
+                font-size: 13px;
+                letter-spacing: 3px;
+                color: #888;
+                font-weight: bold;
             ">
-                TU NBA MATCH
-            </p>
+                🏀 NBA PLAYER MATCH
+            </div>
 
-            <h1 style="
+
+            <div style="
+                margin-top: 25px;
                 font-size: 42px;
-                margin: 10px 0;
+                font-weight: 900;
+                letter-spacing: -1px;
             ">
                 ${bestMatch.player.name}
-            </h1>
+            </div>
 
-            <p style="
-                font-size: 46px;
+
+            <div style="
+                margin-top: 8px;
+                color: #aaa;
+                font-size: 16px;
                 font-weight: bold;
-                margin: 10px 0;
             ">
-                ${bestMatch.similarity}%
-            </p>
+                ${bestMatch.player.position}
+            </div>
+
+
+            <div style="
+                margin: 30px auto 10px;
+                width: 145px;
+                height: 145px;
+                border-radius: 50%;
+                border: 6px solid white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            ">
+
+                <div style="
+                    font-size: 42px;
+                    font-weight: 900;
+                    line-height: 1;
+                ">
+                    ${bestMatch.similarity}%
+                </div>
+
+                <div style="
+                    color: #999;
+                    font-size: 11px;
+                    letter-spacing: 2px;
+                    margin-top: 8px;
+                ">
+                    MATCH
+                </div>
+
+            </div>
+
 
             <p style="
                 color: #aaa;
-                margin-bottom: 35px;
+                margin-top: 25px;
+                margin-bottom: 0;
             ">
-                de similitud con tu estilo de juego
+                Tu estilo de juego se parece especialmente al de
+                <strong style="color:white;">
+                    ${bestMatch.player.name}
+                </strong>.
             </p>
 
         </div>
 
+
+
+        <!-- MEDIA -->
 
         <div style="
             background: #181818;
@@ -1063,7 +1146,8 @@ function showResult() {
 
             <div style="
                 color: #aaa;
-                font-size: 14px;
+                font-size: 13px;
+                letter-spacing: 1px;
             ">
                 VALORACIÓN MEDIA DE TU PERFIL
             </div>
@@ -1079,6 +1163,7 @@ function showResult() {
         </div>
 
 
+
         <hr style="
             border: none;
             border-top: 1px solid #333;
@@ -1086,7 +1171,12 @@ function showResult() {
         ">
 
 
-        <h2>📊 Tu perfil vs ${bestMatch.player.name}</h2>
+
+        <!-- ATRIBUTOS -->
+
+        <h2>
+            📊 Tu perfil vs ${bestMatch.player.name}
+        </h2>
 
         <p style="
             color: #999;
@@ -1099,6 +1189,7 @@ function showResult() {
         ${barsHTML}
 
 
+
         <hr style="
             border: none;
             border-top: 1px solid #333;
@@ -1106,10 +1197,18 @@ function showResult() {
         ">
 
 
-        <h2>🔥 Tus mayores similitudes</h2>
+
+        <!-- SIMILITUDES -->
+
+        <h2>
+            🔥 Tus mayores similitudes
+        </h2>
 
         ${strengthsHTML}
 
+
+
+        <!-- MEJORAS -->
 
         <h2 style="margin-top: 40px;">
             📈 Lo que más deberías mejorar
@@ -1118,6 +1217,7 @@ function showResult() {
         ${improvementHTML}
 
 
+
         <hr style="
             border: none;
             border-top: 1px solid #333;
@@ -1125,7 +1225,12 @@ function showResult() {
         ">
 
 
-        <h2>🥇 Tu Top 3</h2>
+
+        <!-- TOP 3 -->
+
+        <h2>
+            🥇 Tu Top 3
+        </h2>
 
         <div style="
             margin-top: 20px;
@@ -1152,6 +1257,9 @@ function showResult() {
         </div>
 
 
+
+        <!-- JUGADOR OBJETIVO -->
+
         <div style="
             margin-top: 40px;
             padding: 25px;
@@ -1170,6 +1278,7 @@ function showResult() {
             ">
                 Elige un jugador y descubre qué necesitas mejorar para acercarte a su perfil.
             </p>
+
 
             <select
                 id="targetPlayer"
@@ -1200,6 +1309,7 @@ function showResult() {
                 }).join("")}
 
             </select>
+
 
             <button
                 onclick="analyzeTargetPlayer()"
